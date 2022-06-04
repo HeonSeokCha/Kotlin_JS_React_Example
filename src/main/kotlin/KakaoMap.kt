@@ -1,19 +1,37 @@
-
-
+import csstype.px
+import emotion.react.css
 import kotlinx.browser.document
-import org.w3c.dom.Element
-import org.w3c.dom.Window
+import kotlinx.browser.window
+import org.w3c.dom.*
 import react.*
+import react.dom.html.ReactHTML.div
+import kotlin.js.Json
+import kotlin.js.json
 
+//val kakao = window["kakao"]
 
 val KMap = FC<Props> {
-    useEffectOnce {
+    div {
+        id = "map"
+        css {
+            width = 1000.px
+            height = 800.px
+        }
+    }
+    useEffect {
+        val container = document.getElementById("map")
+        val options = json(
+            Pair("center", kakao.maps.LatLng(37.365264512305174, 127.10676860117488)),
+            Pair("level", 3)
+        )
 
-        var container = document.getElementById("map")
-//        options {
-//            center = kakao.maps.LatLng(33.450701, 126.570667)
-//            level = 3
-//        }
-//        kakao.maps.Map(container, TelegramIcon)
+        kakao.maps.Map(container, options)
+    }
+}
+
+external object kakao {
+    object maps {
+        class LatLng constructor(a: Double, b: Double)
+        class Map constructor(container: Element?, options: Json)
     }
 }
