@@ -21,17 +21,39 @@ val KMap = FC<Props> {
     useEffect {
         val container = document.getElementById("map")
         val options = json(
-            Pair("center", kakao.maps.LatLng(37.365264512305174, 127.10676860117488)),
+            Pair("center", kakao.maps.LatLng(37.566826, 126.9786567)),
             Pair("level", 3)
         )
 
-        kakao.maps.Map(container, options)
+        val map = kakao.maps.Map(container, options)
+
+        var markerPosition = kakao.maps.LatLng(37.566826, 126.9786567)
+        var marker = kakao.maps.Marker(json("position" to markerPosition))
+        marker.setMap(map)
     }
 }
+
+
 
 external object kakao {
     object maps {
         class LatLng constructor(a: Double, b: Double)
         class Map constructor(container: Element?, options: Json)
+        class Marker (json: Json?) {
+            fun setMap(map: Map)
+        }
+        class InfoWindow constructor(json: Json?)
+        object services {
+            class Geocoder() {
+                fun coord2RegionCode(a: Any, b: Any, c: Any)
+            }
+        }
+        object event {
+            fun addListener(
+                map: Map,
+                state: String,
+                function: () -> Unit
+            )
+        }
     }
 }
